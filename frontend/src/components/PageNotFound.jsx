@@ -10,11 +10,11 @@ const NotFoundPage = () => {
     <div>
       <Header />
       <div className="text-center">
-        <h1 className="h4 text-muted mt-3">{t('texts.page_not_found')}</h1>
+        <h1 className="h4 text-muted mt-3">{t('texts.pageNotFound')}</h1>
         <p className="text-muted">
-          {t('texts.you_can_go')}
+          {t('texts.youCanGo')}
           {' '}
-          <Link to="/login">{t('texts.to_main_page')}</Link>
+          <Link to="/login">{t('texts.toMainPage')}</Link>
         </p>
         <img
           src={imageNotfount}

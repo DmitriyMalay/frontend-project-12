@@ -4,13 +4,17 @@ const ru = {
         ru: 'Русский',
       },
       texts: {
-        page_not_found: 'Страница не найдена',
-        you_can_go: 'Но вы можете перейти',
-        to_main_page: 'на главную страницу',
+        pageNotFound: 'Страница не найдена',
+        youCanGo: 'Но вы можете перейти',
+        toMainPage: 'на главную страницу',
       },
       title: {
-        hexlet_chat: 'Hexlet Chat',
+        hexletChat: 'Hexlet Chat',
+        logOut: 'Выйти',
       },
+      chanels: {
+        chanels: 'Каналы',
+      }
     },
   };
 

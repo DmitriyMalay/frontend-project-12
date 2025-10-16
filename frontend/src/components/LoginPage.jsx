@@ -1,39 +1,53 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import Header from './Header';
-import LoginIcon from '../images/loginPic.png'
-import { useFormik } from 'formik'
-import * as Yup from 'yup';
-
-
-const LoginSchema = Yup.object().shape({
-  username: Yup.string()
-    .required('Имя пользователя обязательно'),
-  password: Yup.string()
-    .min(6, 'Пароль должен содержать не менее 6 символов')
-    .required('Пароль обязателен'),
-});
+import LoginIcon from '../images/loginPic.png';
+import { useState, useRef, useEffect } from 'react';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useFormik } from 'formik';
+import axios from 'axios';
+import routes from '../routes';
+import { logIn } from '../slices/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Login = () => {
+  const [error, setError] = useState('');
+  const inputRef = useRef();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+
+  useEffect(() => {
+    if (token) {
+      const from = location.state?.from || '/';
+      navigate(from, { replace: true });
+    }
+  }, [token, navigate, location]);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    validationSchema: LoginSchema,
-    // onSubmit: async (values) => {
-    //   // try {
-    //   //   const response = await axios.post(routes.loginPath(), values);
-    //   //   const { token } = response.data;
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post(routes.login(), values);
+        const { token } = response.data;
 
-    //   //   localStorage.setItem('userId', JSON.stringify({ token }));
-    //   //   auth.logIn();
+        dispatch(logIn({ token }));
 
-    //   //   navigate('/private', { replace: true });
-    //   // } catch (err) {
-    //   //   setError('the username or password is incorrect');
-    //   // }
-    // },
+        const from = location.state?.from || '/';
+        navigate(from, { replace: true });
+        setError('');
+      } catch (err) {
+        setError('Неверные имя пользователя или пароль');
+      }
+    },
   });
 
   return (
@@ -46,9 +60,9 @@ const Login = () => {
               <div className="card-body row p-5">
                 <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                   <img 
-                  src={LoginIcon}
-                  className="rounded-circle"
-                  alt="login"
+                    src={LoginIcon}
+                    className="rounded-circle"
+                    alt="login"
                   />
                 </div>
                 <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
@@ -63,14 +77,11 @@ const Login = () => {
                       value={formik.values.username}
                       onChange={formik.handleChange}
                       id="username"
-                      onBlur={formik.handleBlur}
-                      isInvalid={formik.touched.username && !!formik.errors.username}
+                      ref={inputRef}
+                      isInvalid={!!error}
                       placeholder="Имя пользователя"
                     />
                     <Form.Label htmlFor="username">Имя пользователя</Form.Label>
-                    <Form.Control.Feedback type="invalid">
-                      {formik.errors.username}
-                    </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className="form-group form-floating mb-4">
                     <Form.Control
@@ -83,26 +94,24 @@ const Login = () => {
                       required
                       onChange={formik.handleChange}
                       value={formik.values.password}
-                      onBlur={formik.handleBlur}
-                      isInvalid={formik.touched.password && !!formik.errors.password}
+                      isInvalid={!!error}
                     />
                     <Form.Label htmlFor="password">Пароль</Form.Label>
-                    <Form.Control.Feedback type="invalid">
-                      {formik.errors.password}
-                    </Form.Control.Feedback>
+                    {error && <div className="invalid-tooltip">{error}</div>}
                   </Form.Group>
                   <button
                     type="submit"
                     className="w-100 mb-3 btn btn-outline-primary"
+                    disabled={formik.isSubmitting}
                   >
                     Войти
                   </button>
-                </Form>
+                </Form> 
               </div>
               <div className="card-footer p-4">
                 <div className="text-center">
                   <span>Нет аккаунта?</span>&nbsp;
-                  <a href="/signup">Зарегистрироваться</a>
+                  <Link to="/signup">Зарегистрироваться</Link>
                 </div>
               </div>
             </div>

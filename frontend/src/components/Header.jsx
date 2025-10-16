@@ -1,17 +1,17 @@
 import { useTranslation } from 'react-i18next'
 
-const Header = () => {
+const Header = ({ children }) => {
   const { t } = useTranslation()
 
-
 return (
-    <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
-      <div className="container-fluid">
-        <a className="navbar-brand" href="/">
-          {t('title.hexlet_chat')}
-        </a>
-      </div>
-    </nav>
+  <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
+    <div className="container">
+      <a className="navbar-brand" href="/">
+        {t('title.hexletChat')}
+      </a>
+      {children}
+    </div>
+  </nav>
   );
 }
 
