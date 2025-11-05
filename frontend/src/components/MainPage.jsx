@@ -1,20 +1,114 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logOut } from '../slices/authSlice';
 import routes from '../routes';
 import Header from './Header';
 import { useTranslation } from 'react-i18next';
+import { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getChannels, setCurrentChannel } from '../slices/channelsSlice';
+import { setMessages, addMessage, setSending, setError } from '../slices/messagesSlice';
+import socket from '../socket/socket';
+
+
 
 const ChatPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const token = useSelector((state) => state.auth.token);
+
+  const channels = useSelector((state) => state.channels.items);
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const messages = useSelector((state) => state.messages.items);
+  const sending = useSelector((state) => state.messages.sending);
+  
+  const formRef = useRef();
+  const inputEl = useRef()
+  const username = useSelector((state) => state.auth.username)
+  
+  const [messageBody, setMessageBody] = useState('');
+
+  useEffect(() => {
+    inputEl.current?.focus();
+  },[])
+
+  useEffect(() => {
+    if (!token) return;
+
+    const fetchChannels = async () => {
+      try {
+        const response = await axios.get('/api/v1/channels', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        dispatch(getChannels(response.data));
+      } catch (error) {
+        console.error('Ошибка загрузки каналов:', error);
+      }
+    };
+
+    fetchChannels();
+  }, [token, dispatch])
+
+  useEffect(() => {
+    if (!currentChannelId || !token) return;
+
+    const fetchMessages = async () => {
+      dispatch(setMessages([]));
+      try {
+        const response = await axios.get('/api/v1/messages', 
+        { headers: { Authorization: `Bearer ${token}` } })
+        dispatch(setMessages(response.data));
+      } catch (error) {
+        console.error('Ошибка загрузки сообщений:', error);
+      }
+    };
+    fetchMessages();
+  }, [currentChannelId, token, dispatch]);
+
+  useEffect(() => {
+    const handleNewMessage = (message) => {
+      dispatch(addMessage(message));
+    };
+
+    socket.on('newMessage', handleNewMessage);
+
+    return () => {
+      socket.off('newMessage', handleNewMessage);
+    };
+  }, []);
+
 
   const handleLogout = () => {  
     dispatch(logOut());
     navigate(routes.loginPage(), { replace: true });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const body = messageBody.trim();
+    if (!body || !currentChannelId) return;
+
+    dispatch(setSending(true));
+
+    const newMessage = {
+      body,
+      channelId: currentChannelId,
+    };
+
+    try {
+      const response = await axios.post('/api/v1/messages', newMessage, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+    } catch (err) {
+      dispatch(setError(err));
+    } finally {
+      dispatch(setSending(false));
+      setMessageBody('');
+      inputEl.current?.focus();
+  }
+}
 
   return (
     <div className="h-100">
@@ -56,18 +150,18 @@ const ChatPage = () => {
                   id="channels-box"
                   className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
                 >
-                  <li className="nav-item w-100">
-                    <button type="button" className="w-100 rounded-0 text-start btn btn-secondary">
-                      <span className="me-1">#</span>
-                      general
-                    </button>
-                  </li>
-                  <li className="nav-item w-100">
-                    <button type="button" className="w-100 rounded-0 text-start btn">
-                      <span className="me-1">#</span>
-                      random
-                    </button>
-                  </li>
+                  {channels.map((channel) => (
+                    <li key={channel.id} className="nav-item w-100">
+                      <button
+                        type="button"
+                        className={`w-100 rounded-0 text-start btn ${currentChannelId === channel.id ? 'btn-secondary' : ''}`}
+                        onClick={() => dispatch(setCurrentChannel(channel.id))}
+                      >
+                        <span className="me-1">#</span>
+                        {channel.name}
+                      </button>
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="col p-0 h-100">
@@ -78,18 +172,37 @@ const ChatPage = () => {
                     </p>
                     <span className="text-muted">0 сообщений</span>
                   </div>
-                  <div id="messages-box" className="chat-messages overflow-auto px-5"></div>
+                  <div id="messages-box" className="chat-messages overflow-auto px-5">
+                  {messages
+                    .filter(msg => msg.channelId === currentChannelId)
+                    .map((msg) => (
+                      <div key={msg.id}>
+                        <strong>{username}:</strong> {msg.body}
+                      </div>
+                  ))}
+                  </div>
                   <div className="mt-auto px-5 py-3">
-                    <form noValidate className="py-1 border rounded-2">
+                    <form 
+                    noValidate 
+                    className="py-1 border rounded-2"
+                    ref={formRef}
+                    onSubmit={handleSubmit} 
+                    >
                       <div className="input-group has-validation">
                         <input
                           name="body"
                           aria-label="Новое сообщение"
                           placeholder="Введите сообщение..."
                           className="border-0 p-0 ps-2 form-control"
-                          defaultValue=""
+                          ref={inputEl}
+                          value={messageBody}
+                          onChange={(e) => setMessageBody(e.target.value)}                   
                         />
-                        <button type="submit" disabled className="btn btn-group-vertical">
+                        <button 
+                          type="submit"
+                          disabled={!messageBody.trim() || sending} 
+                          className="btn btn-group-vertical"
+                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 16 16"
@@ -118,5 +231,6 @@ const ChatPage = () => {
     </div>
   );
 };
+
 
 export default ChatPage;

@@ -17,7 +17,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
-
+  
   useEffect(() => {
     if (token) {
       const from = location.state?.from || '/';
@@ -37,9 +37,11 @@ const Login = () => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post(routes.login(), values);
-        const { token } = response.data;
+        // const { token } = response.data;
+        // console.log(response.data.username);
 
-        dispatch(logIn({ token }));
+        const { token, username } = response.data;
+        dispatch(logIn({ token, username }));
 
         const from = location.state?.from || '/';
         navigate(from, { replace: true });
