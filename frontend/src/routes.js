@@ -1,4 +1,4 @@
-const path = ''
+const path = '';
 // const apiPath = '/api/v1'
 
 export default {
@@ -6,4 +6,4 @@ export default {
   loginPage: () => [path, 'login'].join('/'),
   notFoundPage: () => [path, '*'].join('/'),
   login: () => ['/api/v1/login'].join('/'),
-}
+};

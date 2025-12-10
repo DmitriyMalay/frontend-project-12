@@ -1,29 +1,60 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import js from '@eslint/js';
+import globals from 'globals';
+import stylistic from '@stylistic/eslint-plugin';
+import reactPlugin from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import { FlatCompat } from '@eslint/eslintrc';
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{js,jsx}'],
+const compat = new FlatCompat({
+  baseDirectory: import.meta.dirname,
+  recommendedConfig: js.configs.recommended,
+});
+
+export default [
+  { ignores: ['dist/**', 'node_modules/**'] },
+
+  ...compat.config({
     extends: [
-      js.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
+      'plugin:react/recommended',
+      'plugin:react-hooks/recommended',
     ],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+    plugins: ['react', 'react-hooks'],
+    settings: {
+      react: {
+        version: 'detect',
       },
     },
+  }),
+  
+  {
+    files: ['**/*.{js,jsx}'],
+    plugins: {
+      '@stylistic': stylistic,
+    },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+ 
+      '@stylistic/semi': ['error', 'always'],
+      '@stylistic/quotes': ['error', 'single'],
+      '@stylistic/indent': ['error', 2],
+      '@stylistic/comma-dangle': ['error', 'always-multiline'],
+
+      'import/extensions': 'off',
+      'import/no-unresolved': 'off',
+      'react/prop-types': 'off',
+      'no-console': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'no-underscore-dangle': ['error', { allow: ['__filename', '__dirname'] }],
+      'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
+      'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
+      'no-param-reassign': ['error', {
+        props: true,
+        ignorePropertyModificationsFor: ['state', 'draft'],
+      }],
+    },
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: { ...globals.browser },
     },
   },
-])
+];

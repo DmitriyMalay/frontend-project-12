@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
-import Header from './Header';
-import LoginIcon from '../images/loginPic.png';
-import { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import axios from 'axios';
-import routes from '../routes';
-import { logIn } from '../slices/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { logIn } from '../slices/authSlice';
+import LoginIcon from '../images/loginPic.png';
+import Header from './Header';
+import routes from '../routes';
 
 const Login = () => {
   const [error, setError] = useState('');
@@ -17,7 +16,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
-  
+
   useEffect(() => {
     if (token) {
       const from = location.state?.from || '/';
@@ -37,9 +36,6 @@ const Login = () => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post(routes.login(), values);
-        // const { token } = response.data;
-        // console.log(response.data.username);
-
         const { token, username } = response.data;
         dispatch(logIn({ token, username }));
 
@@ -47,7 +43,7 @@ const Login = () => {
         navigate(from, { replace: true });
         setError('');
       } catch (err) {
-        setError('Неверные имя пользователя или пароль');
+        setError('Неверные имя пользователя или пароль', err);
       }
     },
   });
@@ -61,7 +57,7 @@ const Login = () => {
             <div className="card shadow-sm">
               <div className="card-body row p-5">
                 <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                  <img 
+                  <img
                     src={LoginIcon}
                     className="rounded-circle"
                     alt="login"
@@ -108,11 +104,12 @@ const Login = () => {
                   >
                     Войти
                   </button>
-                </Form> 
+                </Form>
               </div>
               <div className="card-footer p-4">
                 <div className="text-center">
-                  <span>Нет аккаунта?</span>&nbsp;
+                  <span>Нет аккаунта?</span>
+&nbsp;
                   <Link to="/signup">Зарегистрироваться</Link>
                 </div>
               </div>
