@@ -31,6 +31,12 @@ const ru = {
       delete: 'Удалить',
       rename: 'Переименовать канал',
       save: 'Отправить',
+      registration_min: 'Не менее 3 символов',
+      registration_max: 'Не более 20 символов',
+      required: 'Обязательное поле',
+      password_min: 'Не менее 6 символов',
+      password_confirm: 'Пароли должны совпадать',
+      user_already_exists: 'Такой пользователь уже существует',
     },
     chat: {
       placeholder: 'Введите сообщение...',

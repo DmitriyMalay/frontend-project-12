@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NotFound from './components/PageNotFound';
 import LoginPage from './components/LoginPage';
 import MainPage from './components/MainPage';
+import RegistrationForm from './components/RegistrationPage.jsx';
 import './i18n';
 import routes from './routes.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,6 +15,7 @@ const App = () => (
     <Routes>
       <Route path={routes.loginPage()} element={<LoginPage />} />
       <Route path={routes.notFoundPage()} element={<NotFound />} />
+      <Route path={routes.signUpPage()} element={<RegistrationForm />} />
       <Route
         path={routes.mainPage()}
         element={(

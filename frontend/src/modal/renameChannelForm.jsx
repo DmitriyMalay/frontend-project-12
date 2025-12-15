@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import ChannelSchema  from '../shemas/ChannelFormShema';
+import ChannelSchema from '../shemas/ChannelFormShema';
 
 const RenameChannelForm = ({
   channel, onSubmit, onCancel, existingChannelNames = [],

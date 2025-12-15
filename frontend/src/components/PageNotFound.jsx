@@ -9,18 +9,20 @@ const NotFoundPage = () => {
   return (
     <div>
       <Header />
-      <div className="text-center">
+      <div className="text-center pt-5">
+        <img
+          src={imageNotfount}
+          alt="notFound"
+          className="rounded-circle"
+          style={{ width: '300px' }}
+        />
         <h1 className="h4 text-muted mt-3">{t('texts.pageNotFound')}</h1>
         <p className="text-muted">
           {t('texts.youCanGo')}
           {' '}
           <Link to="/login">{t('texts.toMainPage')}</Link>
         </p>
-        <img
-          src={imageNotfount}
-          alt="notFound"
-          className="img-fluid not-found-image"
-        />
+        
       </div>
     </div>
   );
