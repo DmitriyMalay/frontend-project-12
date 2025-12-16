@@ -109,7 +109,6 @@ const Login = () => {
               <div className="card-footer p-4">
                 <div className="text-center">
                   <span>Нет аккаунта?</span>
-&nbsp;
                   <Link to="/signup">Зарегистрироваться</Link>
                 </div>
               </div>

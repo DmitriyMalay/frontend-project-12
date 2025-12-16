@@ -2,15 +2,15 @@ import * as yup from 'yup';
 
 const registrationSchema = yup.object({
   username: yup.string()
-    .min(3, 'modals.registration_min')
-    .max(20, 'modals.registration_max')
-    .required('modals.required'),
+    .min(3, 'signUp.registration_min')
+    .max(20, 'signUp.registration_max')
+    .required('signUp.required'),
   password: yup.string()
-    .min(6, 'modals.password_min')
-    .required('modals.required'),
+    .min(6, 'signUp.password_min')
+    .required('signUp.required'),
   confirmPassword: yup.string()
-    .oneOf([yup.ref('password')], 'modals.password_confirm')
-    .required('modals.required'),
+    .oneOf([yup.ref('password')], 'signUp.password_confirm')
+    .required('signUp.required'),
 });
 
 export default registrationSchema;

@@ -67,7 +67,7 @@ const RegistrationForm = () =>  {
 
         if (error.response?.status === 409) {
           formik.setErrors({ 
-            general: 'modals.user_already_exists', 
+            general: 'signUp.user_already_exists', 
           });
         }           
       } finally {
@@ -161,7 +161,7 @@ const RegistrationForm = () =>  {
                     </div>
                   )}
                   <button type="submit" className="w-100 btn btn-outline-primary">
-                    Зарегистрироваться
+                    {t('signUp.submit')}
                   </button>
                 </Form>
               </div>            

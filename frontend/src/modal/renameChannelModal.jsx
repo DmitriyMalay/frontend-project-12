@@ -20,7 +20,7 @@ const RenameChannelModal = ({
   return (
     <Modal show={show} onHide={onClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
+        <Modal.Title>{t('modals.rename')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <RenameChannelForm
