@@ -9,9 +9,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './index.css';
 import RequireAuth from './components/RequireAuth';
+import { ToastContainer } from 'react-toastify';
 
 const App = () => (
   <BrowserRouter>
+    <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick={true}
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+    />
     <Routes>
       <Route path={routes.loginPage()} element={<LoginPage />} />
       <Route path={routes.notFoundPage()} element={<NotFound />} />

@@ -48,6 +48,17 @@ const ru = {
       user_already_exists: 'Такой пользователь уже существует',
       submit: 'Зарегистрироваться',
     },
+    notifications: {
+      channel_added_success: 'Канал создан',
+      channel_added_error: 'Ошибка добавления канала',
+      channel_rename_success: 'Канал переименован',
+      channel_rename_error: 'Ошибка переименования канала',
+      channel_delete_success: 'Канал удален',
+      channel_delete_error: 'Ошибка удаления канала',
+      network_error: 'Нет подключения к интернету',
+      authorization_error: 'Требуется авторизация',
+      server_error: 'Ошибка сервера. Попробуйте позже',
+    },
   },
 };
 

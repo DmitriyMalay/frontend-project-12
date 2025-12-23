@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import { Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import ChannelSchema from '../shemas/ChannelFormShema';
+import { toast } from 'react-toastify';
 
 const RenameChannelForm = ({
   channel, onSubmit, onCancel, existingChannelNames = [],
@@ -22,6 +23,10 @@ const RenameChannelForm = ({
 
       try {
         await onSubmit(channel.id, values.name);
+        toast.success(t('notifications.channel_rename_success'));
+      } catch (err) {
+        console.error('Ошибка переименования канала:', err);
+        toast.error(t('notifications.channel_rename_error'));
       } finally {
         setSubmitting(false);
       }

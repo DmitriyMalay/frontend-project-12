@@ -1,11 +1,25 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const ConfirmDeleteChannelModal = ({
   show, onClose, onConfirm, channelName,
 }) => {
   const { t } = useTranslation();
+
+  const handleConfirm = async () => {
+    try {
+      await onConfirm();
+      
+      toast.success(t('notifications.channel_delete_success'));
+      onClose();
+    } catch (error) {
+      console.error('Ошибка удаления канала:', error);
+
+      toast.error(t('notifications.channel_delete_error'));
+    }
+  };
 
   return (
     <Modal show={show} onHide={onClose} centered>
@@ -18,7 +32,7 @@ const ConfirmDeleteChannelModal = ({
           <Button variant="secondary" onClick={onClose} className="me-2">
             {t('modals.cancel')}
           </Button>
-          <Button variant="danger" onClick={onConfirm}>
+          <Button variant="danger" onClick={handleConfirm}>
             {t('modals.delete')}
           </Button>
         </div>

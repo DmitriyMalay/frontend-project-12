@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import { Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import ChannelSchema from '../shemas/ChannelFormShema';
+import { toast } from 'react-toastify';
 
 const AddChannelForm = ({
   channel, onSubmit, onCancel, existingChannelNames = [],
@@ -17,10 +18,13 @@ const AddChannelForm = ({
     validationSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
-        await onSubmit(values);
+        await onSubmit(values);        
+        toast.success(t('notifications.channel_added_success'));
+
         resetForm();
       } catch (err) {
         console.error('Ошибка добавления канала:', err);
+        toast.error(t('notifications.channel_added_error'));
       } finally {
         setSubmitting(false);
       }
