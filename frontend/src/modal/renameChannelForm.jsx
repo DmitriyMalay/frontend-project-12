@@ -5,9 +5,14 @@ import { useTranslation } from 'react-i18next';
 import ChannelSchema from '../shemas/ChannelFormShema';
 import { toast } from 'react-toastify';
 
+
 const RenameChannelForm = ({
-  channel, onSubmit, onCancel, existingChannelNames = [],
+  channel, 
+  onSubmit, 
+  onCancel, 
+  existingChannelNames = [],
 }) => {
+
   const { t } = useTranslation();
   const inputRef = useRef(null);
 
@@ -21,7 +26,7 @@ const RenameChannelForm = ({
     onSubmit: async (values, { setSubmitting }) => {
       if (!channel) return;
 
-      try {
+      try {   
         await onSubmit(channel.id, values.name);
         toast.success(t('notifications.channel_rename_success'));
       } catch (err) {

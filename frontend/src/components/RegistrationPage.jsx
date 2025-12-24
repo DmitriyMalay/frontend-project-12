@@ -64,12 +64,13 @@ const RegistrationForm = () =>  {
       } catch (error) {
 
         console.error('Ошибка регистрации:', error);
-
+        
         if (error.response?.status === 409) {
           formik.setErrors({ 
             general: 'signUp.user_already_exists', 
           });
-        }           
+        }
+
       } finally {
         setSubmitting(false);
       }

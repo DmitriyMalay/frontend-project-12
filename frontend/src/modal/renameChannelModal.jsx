@@ -13,6 +13,7 @@ const RenameChannelModal = ({
   const { t } = useTranslation();
 
   const handleSubmit = (channelId, newName) => {
+    
     onConfirm(channelId, newName);
     onClose();
   };

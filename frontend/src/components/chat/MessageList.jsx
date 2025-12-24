@@ -1,3 +1,5 @@
+import filter from 'leo-profanity';
+
 const MessageList = ({ messages, currentChannelId, username }) => {
   const filteredMessages = messages.filter((msg) => msg.channelId === currentChannelId);
 
@@ -10,7 +12,7 @@ const MessageList = ({ messages, currentChannelId, username }) => {
             :
           </strong>
           {' '}
-          {msg.body}
+          {filter.clean(msg.body)}
         </div>
       ))}
     </div>
