@@ -10,9 +10,11 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './index.css';
 import RequireAuth from './components/RequireAuth';
 import { ToastContainer } from 'react-toastify';
+import { Provider, ErrorBoundary } from '@rollbar/react';
+import rollbarConfig from './rollbar/rollbarConfig.js';
 
-const App = () => (
-  <BrowserRouter>
+const AppData = () => (
+  <>
     <ToastContainer
       position="top-right"
       autoClose={5000}
@@ -38,8 +40,17 @@ const App = () => (
         )}
       />
     </Routes>
-  </BrowserRouter>
+  </>
+);
 
+const App = () => (
+  <Provider config={rollbarConfig}>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <AppData />
+      </BrowserRouter>
+    </ErrorBoundary>
+  </Provider>
 );
 
 export default App;
