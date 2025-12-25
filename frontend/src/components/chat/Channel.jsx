@@ -6,7 +6,10 @@ import { setCurrentChannel } from '../../slices/channelsSlice';
 import ConfirmDeleteChannelModal from '../../modal/deleteChannelModal';
 
 const ChannelItem = ({
-  channel, currentChannelId, onConfirmDelete, onRename,
+  channel, 
+  currentChannelId, 
+  onConfirmDelete, 
+  onRename,
 }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
