@@ -2,7 +2,11 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const MessageInput = ({
-  messageBody, onChange, onSubmit, sending, inputRef,
+  messageBody, 
+  onChange, 
+  onSubmit, 
+  sending, 
+  inputRef,
 }) => {
   const { t } = useTranslation();
 
@@ -12,7 +16,7 @@ const MessageInput = ({
         <div className="input-group has-validation">
           <input
             name="body"
-            aria-label={t('chat.newMessage')}
+            aria-label={t('chat.new_message')}
             placeholder={t('chat.placeholder')}
             className="border-0 p-0 ps-2 form-control"
             ref={inputRef}

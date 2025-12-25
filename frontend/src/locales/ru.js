@@ -30,10 +30,11 @@ const ru = {
       body: 'Уверены?',
       delete: 'Удалить',
       rename: 'Переименовать канал',
-      save: 'Отправить',
+      send: 'Отправить',
     },
     chat: {
       placeholder: 'Введите сообщение...',
+      new_message: 'Новое сообщение',
       messages_zero: '{{count}} сообщений',
       messages_one: '{{count}} сообщение',
       messages_few: '{{count}} сообщения',
