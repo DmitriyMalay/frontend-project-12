@@ -12,11 +12,13 @@ const ru = {
       hexletChat: 'Hexlet Chat',
       logOut: 'Выйти',
     },
-    chanels: {
-      chanels: 'Каналы',
+    channels: {
+      channels: 'Каналы',
       manageChannel: 'Управление каналом',
       rename: 'Переименовать',
+      addChannel: 'Добавить канал',
       delete: 'Удалить',
+      plus: '+',
     },
     modals: {
       add_channel: 'Добавить канал',

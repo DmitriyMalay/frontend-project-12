@@ -59,18 +59,18 @@ const ChannelItem = ({
               aria-expanded="false"
               onClick={(e) => e.stopPropagation()}
             >
-              <span className="visually-hidden">{t('chanels.manageChannel')}</span>
+              <span className="visually-hidden">{t('channels.manageChannel')}</span>
             </button>
 
             <ul className="dropdown-menu">
               <li>
                 <button className="dropdown-item" type="button" onClick={handleRenameClick}>
-                  {t('chanels.rename')}
+                  {t('channels.rename')}
                 </button>
               </li>
               <li>
                 <button className="dropdown-item" type="button" onClick={handleDeleteClick}>
-                  {t('chanels.delete')}
+                  {t('channels.delete')}
                 </button>
               </li>
             </ul>

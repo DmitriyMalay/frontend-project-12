@@ -78,7 +78,7 @@ const RenameChannelForm = ({
           variant="primary"
           disabled={formik.isSubmitting}
         >
-          {t('modals.save')}
+          {t('modals.send')}
         </Button>
       </div>
     </Form>
