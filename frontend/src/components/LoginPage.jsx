@@ -93,7 +93,7 @@ const Login = () => {
                       isInvalid={!!error}
                       placeholder="Имя пользователя"
                     />
-                    <Form.Label htmlFor="username">Имя пользователя</Form.Label>
+                    <Form.Label htmlFor="username">Ваш ник</Form.Label>
                   </Form.Group>
                   <Form.Group className="form-group form-floating mb-4">
                     <Form.Control
