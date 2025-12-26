@@ -69,7 +69,9 @@ const MainPage = () => {
   }, [currentChannelId, token, dispatch]);
 
   useEffect(() => {
-    const handleNewMessage = (msg) => dispatch(addMessage(msg));
+    const handleNewMessage = (msg) => {
+      dispatch(addMessage(msg));
+    };
     socket.on('newMessage', handleNewMessage);
     return () => socket.off('newMessage', handleNewMessage);
   }, [dispatch]);
@@ -83,10 +85,14 @@ const MainPage = () => {
     e.preventDefault();
     const body = messageBody.trim();
     if (!body || !currentChannelId) return;
-
+  
     dispatch(setSending(true));
     try {
-      await axios.post('/api/v1/messages', { body, channelId: currentChannelId }, {
+      await axios.post('/api/v1/messages', {
+        body,
+        channelId: currentChannelId,
+        username,
+      }, {
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch (err) {

@@ -46,7 +46,7 @@ const RenameChannelForm = ({
   return (
     <Form noValidate onSubmit={formik.handleSubmit}>
       <Form.Group className="mb-3">
-      <Form.Label htmlFor="name">Имя канала</Form.Label>
+        <Form.Label htmlFor="name">Имя канала</Form.Label>
         <Form.Control
           ref={inputRef}
           type="text"
