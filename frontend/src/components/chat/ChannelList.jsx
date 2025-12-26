@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import ChannelItem from './Channel';
-import AddChannelModal from '../../modal/addChannelModal';
-import { deleteChannelWithServer } from '../../slices/channelsSlice';
-import RenameChannelModal from '../../modal/renameChannelModal';
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import ChannelItem from './Channel'
+import AddChannelModal from '../../modal/addChannelModal'
+import { deleteChannelWithServer } from '../../slices/channelsSlice'
+import RenameChannelModal from '../../modal/renameChannelModal'
 
 const ChannelList = ({
   channels,
@@ -16,16 +16,16 @@ const ChannelList = ({
   existingChannelNames,
   onRenameChannel,
 }) => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
 
-  const [showRenameModal, setShowRenameModal] = useState(false);
-  const [selectedChannel, setSelectedChannel] = useState(null);
+  const [showRenameModal, setShowRenameModal] = useState(false)
+  const [selectedChannel, setSelectedChannel] = useState(null)
 
   const handleRename = (channel) => {
-    setSelectedChannel(channel);
-    setShowRenameModal(true);
-  };
+    setSelectedChannel(channel)
+    setShowRenameModal(true)
+  }
 
   return (
     <>
@@ -61,19 +61,19 @@ const ChannelList = ({
         id="channels-box"
         className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
       >
-        {channels.map((channel) => (
+        {channels.map(channel => (
           <li key={channel.id} className="nav-item w-100">
             <ChannelItem
               channel={channel}
               currentChannelId={currentChannelId}
-              onConfirmDelete={(channelId) => dispatch(deleteChannelWithServer(channelId))}
+              onConfirmDelete={channelId => dispatch(deleteChannelWithServer(channelId))}
               onRename={handleRename}
             />
           </li>
         ))}
       </ul>
     </>
-  );
-};
+  )
+}
 
-export default ChannelList;
+export default ChannelList

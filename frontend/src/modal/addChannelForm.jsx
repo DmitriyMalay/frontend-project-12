@@ -1,40 +1,42 @@
-import React, { useRef, useEffect } from 'react';
-import { useFormik } from 'formik';
-import { Form, Button } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
-import ChannelSchema from '../shemas/ChannelFormShema';
-import { toast } from 'react-toastify';
+import { useRef, useEffect } from 'react'
+import { useFormik } from 'formik'
+import { Form, Button } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import ChannelSchema from '../shemas/ChannelFormShema'
+import { toast } from 'react-toastify'
 
 const AddChannelForm = ({
   channel, onSubmit, onCancel, existingChannelNames = [],
 }) => {
-  const { t } = useTranslation();
-  const inputRef = useRef(null);
+  const { t } = useTranslation()
+  const inputRef = useRef(null)
 
-  const validationSchema = ChannelSchema(existingChannelNames);
+  const validationSchema = ChannelSchema(existingChannelNames)
 
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
-        await onSubmit(values);        
-        toast.success(t('notifications.channel_added_success'));
+        await onSubmit(values)
+        toast.success(t('notifications.channel_added_success'))
 
-        resetForm();
-      } catch (err) {
-        console.error('Ошибка добавления канала:', err);
-        toast.error(t('notifications.channel_added_error'));
-      } finally {
-        setSubmitting(false);
+        resetForm()
+      }
+      catch (err) {
+        console.error('Ошибка добавления канала:', err)
+        toast.error(t('notifications.channel_added_error'))
+      }
+      finally {
+        setSubmitting(false)
       }
     },
-  });
+  })
 
   useEffect(() => {
-    inputRef.current.focus();
-    inputRef.current.select();
-  }, [channel]);
+    inputRef.current.focus()
+    inputRef.current.select()
+  }, [channel])
 
   return (
     <Form noValidate onSubmit={formik.handleSubmit}>
@@ -65,7 +67,7 @@ const AddChannelForm = ({
         </Button>
       </div>
     </Form>
-  );
-};
+  )
+}
 
-export default AddChannelForm;
+export default AddChannelForm

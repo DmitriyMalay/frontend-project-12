@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+import * as yup from 'yup'
 
 const registrationSchema = yup.object({
   username: yup.string()
@@ -11,6 +11,6 @@ const registrationSchema = yup.object({
   confirmPassword: yup.string()
     .oneOf([yup.ref('password')], 'signUp.password_confirm')
     .required('signUp.required'),
-});
+})
 
-export default registrationSchema;
+export default registrationSchema

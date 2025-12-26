@@ -1,11 +1,10 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import Header from './Header';
-import imageNotfount from '../images/error-404.png';
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import Header from './Header'
+import imageNotfount from '../images/error-404.png'
 
 const NotFoundPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <div>
       <Header />
@@ -22,10 +21,10 @@ const NotFoundPage = () => {
           {' '}
           <Link to="/login">{t('texts.toMainPage')}</Link>
         </p>
-        
+
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default NotFoundPage;
+export default NotFoundPage

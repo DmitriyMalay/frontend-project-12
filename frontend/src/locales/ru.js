@@ -43,7 +43,7 @@ const ru = {
       messages_many: '{{count}} сообщений',
     },
     signUp: {
-      registration_min: 'От 3 до 20 символов',  
+      registration_min: 'От 3 до 20 символов',
       registration_max: 'От 3 до 20 символов',
       required: 'Обязательное поле',
       password_min: 'Не менее 6 символов',
@@ -63,6 +63,6 @@ const ru = {
       server_error: 'Ошибка сервера. Попробуйте позже',
     },
   },
-};
+}
 
-export default ru;
+export default ru

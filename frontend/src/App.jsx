@@ -1,17 +1,17 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import NotFound from './components/PageNotFound';
-import LoginPage from './components/LoginPage';
-import MainPage from './components/MainPage';
-import RegistrationForm from './components/RegistrationPage.jsx';
-import './i18n';
-import routes from './routes.js';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import './index.css';
-import RequireAuth from './components/RequireAuth';
-import { ToastContainer } from 'react-toastify';
-import { Provider, ErrorBoundary } from '@rollbar/react';
-import rollbarConfig from './rollbar/rollbarConfig.js';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import NotFound from './components/PageNotFound'
+import LoginPage from './components/LoginPage'
+import MainPage from './components/MainPage'
+import RegistrationForm from './components/RegistrationPage.jsx'
+import './i18n'
+import routes from './routes.js'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import './index.css'
+import RequireAuth from './components/RequireAuth'
+import { ToastContainer } from 'react-toastify'
+import { Provider, ErrorBoundary } from '@rollbar/react'
+import rollbarConfig from './rollbar/rollbarConfig.js'
 
 const AppData = () => (
   <>
@@ -41,7 +41,7 @@ const AppData = () => (
       />
     </Routes>
   </>
-);
+)
 
 const App = () => (
   <Provider config={rollbarConfig}>
@@ -51,6 +51,6 @@ const App = () => (
       </BrowserRouter>
     </ErrorBoundary>
   </Provider>
-);
+)
 
-export default App;
+export default App

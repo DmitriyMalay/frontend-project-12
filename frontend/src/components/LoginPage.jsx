@@ -1,36 +1,35 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Form } from 'react-bootstrap';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { useFormik } from 'formik';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { logIn } from '../slices/authSlice';
-import LoginIcon from '../images/loginPic.png';
-import Header from './Header';
-import routes from '../routes';
-import { toast } from 'react-toastify';
+import { useState, useRef, useEffect } from 'react'
+import { Form } from 'react-bootstrap'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useFormik } from 'formik'
+import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { logIn } from '../slices/authSlice'
+import LoginIcon from '../images/loginPic.png'
+import Header from './Header'
+import routes from '../routes'
+import { toast } from 'react-toastify'
 
 const Login = () => {
-
-  const [error, setError] = useState('');
-  const inputRef = useRef();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth.token);
-  const { t } = useTranslation();
+  const [error, setError] = useState('')
+  const inputRef = useRef()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const token = useSelector(state => state.auth.token)
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (token) {
-      const from = location.state?.from || '/';
-      navigate(from, { replace: true });
+      const from = location.state?.from || '/'
+      navigate(from, { replace: true })
     }
-  }, [token, navigate, location]);
+  }, [token, navigate, location])
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+    inputRef.current?.focus()
+  }, [])
 
   const formik = useFormik({
     initialValues: {
@@ -39,28 +38,29 @@ const Login = () => {
     },
     onSubmit: async (values) => {
       try {
-        const response = await axios.post(routes.login(), values);
-        const { token, username } = response.data;
-        dispatch(logIn({ token, username }));
+        const response = await axios.post(routes.login(), values)
+        const { token, username } = response.data
+        dispatch(logIn({ token, username }))
 
-        const from = location.state?.from || '/';
-        navigate(from, { replace: true });
-        setError('');
-      } catch (error) {
-        setError('Неверные имя пользователя или пароль');
-        
+        const from = location.state?.from || '/'
+        navigate(from, { replace: true })
+        setError('')
+      }
+      catch (error) {
+        setError('Неверные имя пользователя или пароль')
+
         if (!error.response) {
-          toast.error(t('notifications.network_error'));      
-        } 
+          toast.error(t('notifications.network_error'))
+        }
         else if (error.response.status === 401) {
-          toast.error(t('notifications.authorization_error'));    
-        } 
+          toast.error(t('notifications.authorization_error'))
+        }
         else if (error.response.status === 500) {
-          toast.error(t('notifications.server_error'));
+          toast.error(t('notifications.server_error'))
         }
       }
     },
-  });
+  })
 
   return (
     <>
@@ -131,7 +131,7 @@ const Login = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

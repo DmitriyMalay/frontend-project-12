@@ -1,42 +1,42 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { setCurrentChannel } from '../../slices/channelsSlice';
-import ConfirmDeleteChannelModal from '../../modal/deleteChannelModal';
-import filter from 'leo-profanity';
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { setCurrentChannel } from '../../slices/channelsSlice'
+import ConfirmDeleteChannelModal from '../../modal/deleteChannelModal'
+import filter from 'leo-profanity'
 
 const ChannelItem = ({
-  channel, 
-  currentChannelId, 
-  onConfirmDelete, 
+  channel,
+  currentChannelId,
+  onConfirmDelete,
   onRename,
 }) => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
 
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
 
-  const isActive = currentChannelId === channel.id;
-  const btnClass = isActive ? 'btn-secondary' : 'btn-light';
+  const isActive = currentChannelId === channel.id
+  const btnClass = isActive ? 'btn-secondary' : 'btn-light'
 
   const handleChannelClick = () => {
-    dispatch(setCurrentChannel(channel.id));
-  };
+    dispatch(setCurrentChannel(channel.id))
+  }
 
   const handleRenameClick = () => {
     if (onRename) {
-      onRename(channel);
+      onRename(channel)
     }
-  };
+  }
 
   const handleDeleteClick = () => {
-    setShowConfirmModal(true);
-  };
+    setShowConfirmModal(true)
+  }
 
   const handleConfirmDelete = () => {
-    onConfirmDelete(channel.id);
-    setShowConfirmModal(false);
-  };
+    onConfirmDelete(channel.id)
+    setShowConfirmModal(false)
+  }
 
   return (
     <>
@@ -57,7 +57,7 @@ const ChannelItem = ({
               className={`btn ${btnClass} dropdown-toggle dropdown-toggle-split`}
               data-bs-toggle="dropdown"
               aria-expanded="false"
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
             >
               <span className="visually-hidden">{t('channels.manageChannel')}</span>
             </button>
@@ -87,7 +87,7 @@ const ChannelItem = ({
         />
       )}
     </>
-  );
-};
+  )
+}
 
-export default ChannelItem;
+export default ChannelItem

@@ -1,22 +1,20 @@
-import React, { useEffect, useRef } from 'react';
-import { useFormik } from 'formik';
-import { Form, Button } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
-import ChannelSchema from '../shemas/ChannelFormShema';
-import { toast } from 'react-toastify';
-
+import { useEffect, useRef } from 'react'
+import { useFormik } from 'formik'
+import { Form, Button } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import ChannelSchema from '../shemas/ChannelFormShema'
+import { toast } from 'react-toastify'
 
 const RenameChannelForm = ({
-  channel, 
-  onSubmit, 
-  onCancel, 
+  channel,
+  onSubmit,
+  onCancel,
   existingChannelNames = [],
 }) => {
+  const { t } = useTranslation()
+  const inputRef = useRef(null)
 
-  const { t } = useTranslation();
-  const inputRef = useRef(null);
-
-  const validationSchema = ChannelSchema(existingChannelNames);
+  const validationSchema = ChannelSchema(existingChannelNames)
 
   const formik = useFormik({
     initialValues: {
@@ -24,24 +22,26 @@ const RenameChannelForm = ({
     },
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      if (!channel) return;
+      if (!channel) return
 
-      try {   
-        await onSubmit(channel.id, values.name);
-        toast.success(t('notifications.channel_rename_success'));
-      } catch (err) {
-        console.error('Ошибка переименования канала:', err);
-        toast.error(t('notifications.channel_rename_error'));
-      } finally {
-        setSubmitting(false);
+      try {
+        await onSubmit(channel.id, values.name)
+        toast.success(t('notifications.channel_rename_success'))
+      }
+      catch (err) {
+        console.error('Ошибка переименования канала:', err)
+        toast.error(t('notifications.channel_rename_error'))
+      }
+      finally {
+        setSubmitting(false)
       }
     },
-  });
+  })
 
   useEffect(() => {
-    inputRef.current.focus();
-    inputRef.current.select();
-  }, [channel]);
+    inputRef.current.focus()
+    inputRef.current.select()
+  }, [channel])
 
   return (
     <Form noValidate onSubmit={formik.handleSubmit}>
@@ -84,7 +84,7 @@ const RenameChannelForm = ({
         </Button>
       </div>
     </Form>
-  );
-};
+  )
+}
 
-export default RenameChannelForm;
+export default RenameChannelForm

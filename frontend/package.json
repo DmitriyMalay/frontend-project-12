@@ -11,6 +11,7 @@
     "start": "npx start-server -s ./dist"
   },
   "dependencies": {
+    "@eslint/compat": "^2.0.0",
     "@reduxjs/toolkit": "^2.9.0",
     "@rollbar/react": "^1.0.0",
     "axios": "^1.12.2",

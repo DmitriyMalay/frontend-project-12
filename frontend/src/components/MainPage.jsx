@@ -1,92 +1,93 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import axios from 'axios';
-import socket from '../socket/socket';
-import { addChannel, getChannels, setCurrentChannel, renameChannel } from '../slices/channelsSlice';
-import { logOut } from '../slices/authSlice';
-import { setMessages, addMessage, setSending, setError } from '../slices/messagesSlice';
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import axios from 'axios'
+import socket from '../socket/socket'
+import { addChannel, getChannels, setCurrentChannel, renameChannel } from '../slices/channelsSlice'
+import { logOut } from '../slices/authSlice'
+import { setMessages, addMessage, setSending, setError } from '../slices/messagesSlice'
 
-import Header from './Header';
-import routes from '../routes';
+import Header from './Header'
+import routes from '../routes'
 
-import ChannelList from './chat/ChannelList';
-import ChatHeader from './chat/ChatHeader';
-import MessageList from './chat/MessageList';
-import MessageInput from './chat/MessageInput';
+import ChannelList from './chat/ChannelList'
+import ChatHeader from './chat/ChatHeader'
+import MessageList from './chat/MessageList'
+import MessageInput from './chat/MessageInput'
 
 const MainPage = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { t } = useTranslation();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { t } = useTranslation()
 
+  const [showAddChannelModal, setShowAddChannelModal] = useState(false)
+  const [messageBody, setMessageBody] = useState('')
 
-  const [showAddChannelModal, setShowAddChannelModal] = useState(false);
-  const [messageBody, setMessageBody] = useState('');
+  const inputEl = useRef()
 
-  const inputEl = useRef();
+  const token = useSelector(state => state.auth.token)
+  const username = useSelector(state => state.auth.username)
+  const channels = useSelector(state => state.channels.items)
+  const currentChannelId = useSelector(state => state.channels.currentChannelId)
+  const messages = useSelector(state => state.messages.items)
+  const sending = useSelector(state => state.messages.sending)
 
-  const token = useSelector((state) => state.auth.token);
-  const username = useSelector((state) => state.auth.username);
-  const channels = useSelector((state) => state.channels.items);
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-  const messages = useSelector((state) => state.messages.items);
-  const sending = useSelector((state) => state.messages.sending);
-
-  const existingChannelNames = channels.map(channel => channel.name);
-  const messageCount = messages.filter(msg => msg.channelId === currentChannelId).length;
-
-  useEffect(() => {
-    inputEl.current?.focus();
-  }, []);
+  const existingChannelNames = channels.map(channel => channel.name)
+  const messageCount = messages.filter(msg => msg.channelId === currentChannelId).length
 
   useEffect(() => {
-    if (!token) return;
+    inputEl.current?.focus()
+  }, [])
+
+  useEffect(() => {
+    if (!token) return
     const fetchChannels = async () => {
       try {
-        const res = await axios.get('/api/v1/channels', { headers: { Authorization: `Bearer ${token}` } });
-        dispatch(getChannels(res.data));
-      } catch (err) {
-        console.error('Ошибка загрузки каналов:', err);
+        const res = await axios.get('/api/v1/channels', { headers: { Authorization: `Bearer ${token}` } })
+        dispatch(getChannels(res.data))
       }
-    };
-    fetchChannels();
-  }, [token, dispatch]);
+      catch (err) {
+        console.error('Ошибка загрузки каналов:', err)
+      }
+    }
+    fetchChannels()
+  }, [token, dispatch])
 
   useEffect(() => {
-    if (!currentChannelId || !token) return;
+    if (!currentChannelId || !token) return
     const fetchMessages = async () => {
-      dispatch(setMessages([]));
+      dispatch(setMessages([]))
       try {
-        const res = await axios.get('/api/v1/messages', { headers: { Authorization: `Bearer ${token}` } });
-        dispatch(setMessages(res.data));
-      } catch (err) {
-        console.error('Ошибка загрузки сообщений:', err);
+        const res = await axios.get('/api/v1/messages', { headers: { Authorization: `Bearer ${token}` } })
+        dispatch(setMessages(res.data))
       }
-    };
-    fetchMessages();
-  }, [currentChannelId, token, dispatch]);
+      catch (err) {
+        console.error('Ошибка загрузки сообщений:', err)
+      }
+    }
+    fetchMessages()
+  }, [currentChannelId, token, dispatch])
 
   useEffect(() => {
     const handleNewMessage = (msg) => {
-      dispatch(addMessage(msg));
-    };
-    socket.on('newMessage', handleNewMessage);
-    return () => socket.off('newMessage', handleNewMessage);
-  }, [dispatch]);
+      dispatch(addMessage(msg))
+    }
+    socket.on('newMessage', handleNewMessage)
+    return () => socket.off('newMessage', handleNewMessage)
+  }, [dispatch])
 
   const handleLogout = () => {
-    dispatch(logOut());
-    navigate(routes.loginPage(), { replace: true });
-  };
+    dispatch(logOut())
+    navigate(routes.loginPage(), { replace: true })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const body = messageBody.trim();
-    if (!body || !currentChannelId) return;
-  
-    dispatch(setSending(true));
+    e.preventDefault()
+    const body = messageBody.trim()
+    if (!body || !currentChannelId) return
+
+    dispatch(setSending(true))
     try {
       await axios.post('/api/v1/messages', {
         body,
@@ -94,28 +95,31 @@ const MainPage = () => {
         username,
       }, {
         headers: { Authorization: `Bearer ${token}` },
-      });
-    } catch (err) {
-      dispatch(setError(err));
-    } finally {
-      dispatch(setSending(false));
-      setMessageBody('');
-      inputEl.current?.focus();
+      })
     }
-  };
+    catch (err) {
+      dispatch(setError(err))
+    }
+    finally {
+      dispatch(setSending(false))
+      setMessageBody('')
+      inputEl.current?.focus()
+    }
+  }
 
   const handleAddChannel = async (values) => {
     try {
       const res = await axios.post('/api/v1/channels', values, {
         headers: { Authorization: `Bearer ${token}` },
-      });
-      dispatch(addChannel(res.data));
-      dispatch(setCurrentChannel(res.data.id));
-      setShowAddChannelModal(false);
-    } catch (err) {
-      console.error('Не удалось создать канал', err);
+      })
+      dispatch(addChannel(res.data))
+      dispatch(setCurrentChannel(res.data.id))
+      setShowAddChannelModal(false)
     }
-  };
+    catch (err) {
+      console.error('Не удалось создать канал', err)
+    }
+  }
 
   const handleRenameChannel = async (channelId, newName) => {
     try {
@@ -123,12 +127,13 @@ const MainPage = () => {
         `/api/v1/channels/${channelId}`,
         { name: newName },
         { headers: { Authorization: `Bearer ${token}` } },
-      );
-      dispatch(renameChannel(response.data));
-    } catch (err) {
-      console.error('Ошибка переименования канала:', err);
+      )
+      dispatch(renameChannel(response.data))
     }
-  };
+    catch (err) {
+      console.error('Ошибка переименования канала:', err)
+    }
+  }
 
   return (
     <div className="h-100">
@@ -168,7 +173,7 @@ const MainPage = () => {
                   />
                   <MessageInput
                     messageBody={messageBody}
-                    onChange={(e) => setMessageBody(e.target.value)}
+                    onChange={e => setMessageBody(e.target.value)}
                     onSubmit={handleSubmit}
                     sending={sending}
                     inputRef={inputEl}
@@ -181,7 +186,7 @@ const MainPage = () => {
       </div>
       <div className="Toastify"></div>
     </div>
-  );
-};
+  )
+}
 
-export default MainPage;
+export default MainPage

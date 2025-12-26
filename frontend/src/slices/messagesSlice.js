@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 const messagesSlice = createSlice({
   name: 'messages',
@@ -9,26 +9,26 @@ const messagesSlice = createSlice({
   },
   reducers: {
     setMessages: (state, action) => {
-      state.items = action.payload;
+      state.items = action.payload
     },
     addMessage: (state, action) => {
-      state.items.push(action.payload);
+      state.items.push(action.payload)
     },
     setSending: (state, action) => {
-      state.sending = action.payload;
+      state.sending = action.payload
     },
     setError: (state, action) => {
-      state.error = action.payload;
+      state.error = action.payload
     },
     removeMessagesByChannel: (state, action) => {
-      const channelId = action.payload;
-      state.items = state.items.filter((msg) => msg.channelId !== channelId);
+      const channelId = action.payload
+      state.items = state.items.filter(msg => msg.channelId !== channelId)
     },
   },
-});
+})
 
 export const {
   setMessages, addMessage, setSending, setError, removeMessagesByChannel,
-} = messagesSlice.actions;
+} = messagesSlice.actions
 
-export default messagesSlice.reducer;
+export default messagesSlice.reducer

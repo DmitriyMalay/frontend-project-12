@@ -1,11 +1,10 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next'
 
 const ChatHeader = ({ channels, currentChannelId, messageCount }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const currentChannel = channels.find((ch) => ch.id === currentChannelId);
-  const channelName = currentChannel ? currentChannel.name : '';
+  const currentChannel = channels.find(ch => ch.id === currentChannelId)
+  const channelName = currentChannel ? currentChannel.name : ''
 
   return (
     <div className="bg-light mb-4 p-3 shadow-sm small">
@@ -19,7 +18,7 @@ const ChatHeader = ({ channels, currentChannelId, messageCount }) => {
         {t('chat.messages', { count: messageCount })}
       </span>
     </div>
-  );
-};
+  )
+}
 
-export default ChatHeader;
+export default ChatHeader

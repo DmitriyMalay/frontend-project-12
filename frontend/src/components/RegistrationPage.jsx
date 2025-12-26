@@ -1,43 +1,42 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Form } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { useFormik } from 'formik';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { logIn } from '../slices/authSlice';
-import signUpIcon from '../images/signupPic.png';
-import Header from './Header';
-import routes from '../routes';
-import registrationSchema from '../shemas/RegistrationFormShema';
-import { useTranslation } from 'react-i18next';
+import { useState, useRef, useEffect } from 'react'
+import { Form } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import { useFormik } from 'formik'
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { logIn } from '../slices/authSlice'
+import signUpIcon from '../images/signupPic.png'
+import Header from './Header'
+import routes from '../routes'
+import registrationSchema from '../shemas/RegistrationFormShema'
+import { useTranslation } from 'react-i18next'
 
-const RegistrationForm = () =>  {
-
+const RegistrationForm = () => {
   const [touchedFields, setTouchedFields] = useState({
     username: false,
     password: false,
     confirmPassword: false,
-  });
-  const inputRef = useRef();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  })
+  const inputRef = useRef()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
 
-  const handleBlur = (fieldName) => (e) => {
-    formik.handleBlur(e);
+  const handleBlur = fieldName => (e) => {
+    formik.handleBlur(e)
     setTouchedFields(prev => ({
       ...prev,
       [fieldName]: true,
-    }));
-  };
+    }))
+  }
 
   const showError = (fieldName) => {
-    return formik.touched[fieldName] && formik.errors[fieldName];
-  };
+    return touchedFields[fieldName] && formik.errors[fieldName]
+  }
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+    inputRef.current?.focus()
+  }, [])
 
   const formik = useFormik({
     initialValues: {
@@ -47,35 +46,37 @@ const RegistrationForm = () =>  {
     },
     validationSchema: registrationSchema,
     validateOnBlur: true,
-    onSubmit: async (values, { setSubmitting, setErrors, resetForm }) => {
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
-
-        const { confirmPassword, ...userData } = values;
-
-        const response = await axios.post('/api/v1/signup', userData);                
-        console.log('Успешная регистрация:', response.data);
-
-        resetForm();
-                
-        const { token, username } = response.data;
-
-        dispatch(logIn({ token, username }));
-        navigate(routes.mainPage());        
-      } catch (error) {
-
-        console.error('Ошибка регистрации:', error);
-        
-        if (error.response?.status === 409) {
-          formik.setErrors({ 
-            general: 'signUp.user_already_exists', 
-          });
+        const userData = {
+          username: values.username,
+          password: values.password,
         }
 
-      } finally {
-        setSubmitting(false);
+        const response = await axios.post('/api/v1/signup', userData)
+        console.log('Успешная регистрация:', response.data)
+
+        resetForm()
+
+        const { token, username } = response.data
+
+        dispatch(logIn({ token, username }))
+        navigate(routes.mainPage())
+      }
+      catch (error) {
+        console.error('Ошибка регистрации:', error)
+
+        if (error.response?.status === 409) {
+          formik.setErrors({
+            general: 'signUp.user_already_exists',
+          })
+        }
+      }
+      finally {
+        setSubmitting(false)
       }
     },
-  });
+  })
 
   return (
     <>
@@ -86,12 +87,12 @@ const RegistrationForm = () =>  {
             <div className="card shadow-sm">
               <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
                 <div>
-                  <img 
+                  <img
                     src={signUpIcon}
                     className="rounded-circle"
                     alt="signup"
                   />
-                </div> 
+                </div>
                 <Form onSubmit={formik.handleSubmit} className="w-50">
                   <h1 className="text-center mb-4">Регистрация</h1>
                   <Form.Group className="form-group form-floating mb-3">
@@ -165,13 +166,13 @@ const RegistrationForm = () =>  {
                     {t('signUp.submit')}
                   </button>
                 </Form>
-              </div>            
+              </div>
             </div>
           </div>
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default RegistrationForm;
+export default RegistrationForm

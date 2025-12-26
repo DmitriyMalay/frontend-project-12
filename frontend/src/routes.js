@@ -1,4 +1,4 @@
-const path = '';
+const path = ''
 
 export default {
   mainPage: () => '/',
@@ -6,4 +6,4 @@ export default {
   notFoundPage: () => [path, '*'].join('/'),
   login: () => ['/api/v1/login'].join('/'),
   signUpPage: () => [path, 'signup'].join('/'),
-};
+}

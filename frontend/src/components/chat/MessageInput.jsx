@@ -1,14 +1,13 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next'
 
 const MessageInput = ({
-  messageBody, 
-  onChange, 
-  onSubmit, 
-  sending, 
+  messageBody,
+  onChange,
+  onSubmit,
+  sending,
   inputRef,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <div className="mt-auto px-5 py-3">
@@ -36,7 +35,7 @@ const MessageInput = ({
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default MessageInput;
+export default MessageInput

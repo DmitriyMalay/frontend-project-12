@@ -1,12 +1,11 @@
-import React from 'react';
-import { Modal } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
-import AddChannelForm from './addChannelForm';
+import { Modal } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import AddChannelForm from './addChannelForm'
 
 const AddChannelModal = ({
   show, handleClose, onAddChannel, existingChannelNames,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <Modal show={show} onHide={handleClose} centered>
@@ -21,7 +20,7 @@ const AddChannelModal = ({
         />
       </Modal.Body>
     </Modal>
-  );
-};
+  )
+}
 
-export default AddChannelModal;
+export default AddChannelModal

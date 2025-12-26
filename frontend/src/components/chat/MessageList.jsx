@@ -1,11 +1,11 @@
-import filter from 'leo-profanity';
+import filter from 'leo-profanity'
 
 const MessageList = ({ messages, currentChannelId }) => {
-  const filteredMessages = messages.filter((msg) => msg.channelId === currentChannelId);
+  const filteredMessages = messages.filter(msg => msg.channelId === currentChannelId)
 
   return (
     <div id="messages-box" className="chat-messages overflow-auto px-5">
-      {filteredMessages.map((msg) => (
+      {filteredMessages.map(msg => (
         <div key={msg.id} className="message">
           <strong className="message-username">
             {msg.username}
@@ -16,7 +16,7 @@ const MessageList = ({ messages, currentChannelId }) => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default MessageList;
+export default MessageList

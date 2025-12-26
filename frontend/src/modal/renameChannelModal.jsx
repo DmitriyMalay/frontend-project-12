@@ -1,7 +1,6 @@
-import React from 'react';
-import { Modal } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
-import RenameChannelForm from './renameChannelForm';
+import { Modal } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import RenameChannelForm from './renameChannelForm'
 
 const RenameChannelModal = ({
   show,
@@ -10,13 +9,12 @@ const RenameChannelModal = ({
   onConfirm,
   existingChannelNames = [],
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const handleSubmit = (channelId, newName) => {
-    
-    onConfirm(channelId, newName);
-    onClose();
-  };
+    onConfirm(channelId, newName)
+    onClose()
+  }
 
   return (
     <Modal show={show} onHide={onClose} centered>
@@ -32,7 +30,7 @@ const RenameChannelModal = ({
         />
       </Modal.Body>
     </Modal>
-  );
-};
+  )
+}
 
-export default RenameChannelModal;
+export default RenameChannelModal
