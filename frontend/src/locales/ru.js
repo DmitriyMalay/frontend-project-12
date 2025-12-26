@@ -56,7 +56,7 @@ const ru = {
       channel_added_error: 'Ошибка добавления канала',
       channel_rename_success: 'Канал переименован',
       channel_rename_error: 'Ошибка переименования канала',
-      channel_delete_success: 'Канал удален',
+      channel_delete_success: 'Канал удалён',
       channel_delete_error: 'Ошибка удаления канала',
       network_error: 'Ошибка соединения',
       authorization_error: 'Требуется авторизация',
