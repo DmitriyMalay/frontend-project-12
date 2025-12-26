@@ -1,9 +1,9 @@
-// src/components/ChannelItem.jsx
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { setCurrentChannel } from '../../slices/channelsSlice';
 import ConfirmDeleteChannelModal from '../../modal/deleteChannelModal';
+import filter from 'leo-profanity';
 
 const ChannelItem = ({
   channel, 
@@ -47,7 +47,7 @@ const ChannelItem = ({
           onClick={handleChannelClick}
         >
           <span className="me-1">#</span>
-          {channel.name}
+          {filter.clean(channel.name)}
         </button>
 
         {channel.removable && (
