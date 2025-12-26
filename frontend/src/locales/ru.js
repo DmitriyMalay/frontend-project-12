@@ -22,7 +22,7 @@ const ru = {
     },
     modals: {
       add_channel: 'Добавить канал',
-      channel_name: 'Название канала',
+      channel_name: 'Имя канала',
       channel_min: 'От 3 до 20 символов',
       channel_max: 'От 3 до 20 символов',
       channel_exists: 'Должно быть уникальным',
