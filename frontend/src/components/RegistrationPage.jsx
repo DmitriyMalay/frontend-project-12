@@ -8,7 +8,8 @@ import { logIn } from '../slices/authSlice'
 import signUpIcon from '../images/signupPic.png'
 import Header from './Header'
 import routes from '../routes'
-import registrationSchema from '../shemas/registrationFormShema'
+import registrationSchema from '../shemas/RegistrationFormShema'
+
 import { useTranslation } from 'react-i18next'
 
 const RegistrationForm = () => {
