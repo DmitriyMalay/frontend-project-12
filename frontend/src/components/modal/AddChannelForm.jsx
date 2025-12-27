@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react'
 import { useFormik } from 'formik'
 import { Form, Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import ChannelSchema from '../../shemas/channelFormShema'
+import ChannelSchema from '../../shemas/channelShema'
 import { toast } from 'react-toastify'
 
 const AddChannelForm = ({
