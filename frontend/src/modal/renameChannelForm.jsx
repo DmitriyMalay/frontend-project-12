@@ -16,26 +16,28 @@ const RenameChannelForm = ({
 
   const validationSchema = ChannelSchema(existingChannelNames)
 
+  const handleSubmit = async (values, { setSubmitting }) => {
+    if (!channel) return
+
+    try {
+      await onSubmit(channel.id, values.name)
+      toast.success(t('notifications.channel_rename_success'))
+    }
+    catch (err) {
+      console.error('Ошибка переименования канала:', err)
+      toast.error(t('notifications.channel_rename_error'))
+    }
+    finally {
+      setSubmitting(false)
+    }
+  }
+
   const formik = useFormik({
     initialValues: {
       name: channel?.name || '',
     },
     validationSchema,
-    onSubmit: async (values, { setSubmitting }) => {
-      if (!channel) return
-
-      try {
-        await onSubmit(channel.id, values.name)
-        toast.success(t('notifications.channel_rename_success'))
-      }
-      catch (err) {
-        console.error('Ошибка переименования канала:', err)
-        toast.error(t('notifications.channel_rename_error'))
-      }
-      finally {
-        setSubmitting(false)
-      }
-    },
+    onSubmit: handleSubmit,
   })
 
   useEffect(() => {

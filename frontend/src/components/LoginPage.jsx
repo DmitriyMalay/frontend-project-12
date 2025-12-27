@@ -31,35 +31,37 @@ const Login = () => {
     inputRef.current?.focus()
   }, [])
 
+  const handleSubmit = async (values) => {
+    try {
+      const response = await axios.post(routes.login(), values)
+      const { token, username } = response.data
+      dispatch(logIn({ token, username }))
+
+      const from = location.state?.from || '/'
+      navigate(from, { replace: true })
+      setError('')
+    }
+    catch (error) {
+      setError('Неверные имя пользователя или пароль')
+
+      if (!error.response) {
+        toast.error(t('notifications.network_error'))
+      }
+      else if (error.response.status === 401) {
+        toast.error(t('notifications.authorization_error'))
+      }
+      else if (error.response.status === 500) {
+        toast.error(t('notifications.server_error'))
+      }
+    }
+  }
+
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    onSubmit: async (values) => {
-      try {
-        const response = await axios.post(routes.login(), values)
-        const { token, username } = response.data
-        dispatch(logIn({ token, username }))
-
-        const from = location.state?.from || '/'
-        navigate(from, { replace: true })
-        setError('')
-      }
-      catch (error) {
-        setError('Неверные имя пользователя или пароль')
-
-        if (!error.response) {
-          toast.error(t('notifications.network_error'))
-        }
-        else if (error.response.status === 401) {
-          toast.error(t('notifications.authorization_error'))
-        }
-        else if (error.response.status === 500) {
-          toast.error(t('notifications.server_error'))
-        }
-      }
-    },
+    onSubmit: handleSubmit,
   })
 
   return (
@@ -123,6 +125,7 @@ const Login = () => {
               <div className="card-footer p-4">
                 <div className="text-center">
                   <span>Нет аккаунта?</span>
+                  {' '}
                   <Link to="/signup">Регистрация</Link>
                 </div>
               </div>

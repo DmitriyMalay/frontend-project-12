@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { setCurrentChannel } from '../../slices/channelsSlice'
-import ConfirmDeleteChannelModal from '../../modal/deleteChannelModal'
+import ConfirmDeleteChannelModal from '../../modal/DeleteChannelModal'
 import filter from 'leo-profanity'
 
 const ChannelItem = ({

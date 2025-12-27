@@ -9,24 +9,13 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import './index.css'
 import RequireAuth from './components/RequireAuth'
-import { ToastContainer } from 'react-toastify'
+import ToastBox from './components/toastify/ToastBox.jsx'
 import { Provider, ErrorBoundary } from '@rollbar/react'
 import rollbarConfig from './rollbar/rollbarConfig.js'
 
 const AppData = () => (
   <>
-    <ToastContainer
-      position="top-right"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick={true}
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light"
-    />
+    <ToastBox />
     <Routes>
       <Route path={routes.loginPage()} element={<LoginPage />} />
       <Route path={routes.notFoundPage()} element={<NotFound />} />

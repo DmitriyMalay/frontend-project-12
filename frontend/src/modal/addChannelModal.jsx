@@ -1,6 +1,6 @@
 import { Modal } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import AddChannelForm from './addChannelForm'
+import AddChannelForm from './AddChannelForm'
 
 const AddChannelModal = ({
   show, handleClose, onAddChannel, existingChannelNames,

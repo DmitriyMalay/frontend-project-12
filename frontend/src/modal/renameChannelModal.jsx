@@ -1,6 +1,6 @@
 import { Modal } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import RenameChannelForm from './renameChannelForm'
+import RenameChannelForm from './RenameChannelForm'
 
 const RenameChannelModal = ({
   show,

@@ -13,24 +13,25 @@ const AddChannelForm = ({
 
   const validationSchema = ChannelSchema(existingChannelNames)
 
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      await onSubmit(values)
+      toast.success(t('notifications.channel_added_success'))
+      resetForm()
+    }
+    catch (err) {
+      console.error('Ошибка добавления канала:', err)
+      toast.error(t('notifications.channel_added_error'))
+    }
+    finally {
+      setSubmitting(false)
+    }
+  }
+
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema,
-    onSubmit: async (values, { setSubmitting, resetForm }) => {
-      try {
-        await onSubmit(values)
-        toast.success(t('notifications.channel_added_success'))
-
-        resetForm()
-      }
-      catch (err) {
-        console.error('Ошибка добавления канала:', err)
-        toast.error(t('notifications.channel_added_error'))
-      }
-      finally {
-        setSubmitting(false)
-      }
-    },
+    onSubmit: handleSubmit,
   })
 
   useEffect(() => {

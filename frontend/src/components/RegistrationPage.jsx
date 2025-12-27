@@ -8,7 +8,7 @@ import { logIn } from '../slices/authSlice'
 import signUpIcon from '../images/signupPic.png'
 import Header from './Header'
 import routes from '../routes'
-import registrationSchema from '../shemas/RegistrationFormShema'
+import registrationSchema from '../shemas/registrationFormShema'
 import { useTranslation } from 'react-i18next'
 
 const RegistrationForm = () => {
@@ -34,6 +34,37 @@ const RegistrationForm = () => {
     return touchedFields[fieldName] && formik.errors[fieldName]
   }
 
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      const userData = {
+        username: values.username,
+        password: values.password,
+      }
+
+      const response = await axios.post('/api/v1/signup', userData)
+      console.log('Успешная регистрация:', response.data)
+
+      resetForm()
+
+      const { token, username } = response.data
+
+      dispatch(logIn({ token, username }))
+      navigate(routes.mainPage())
+    }
+    catch (error) {
+      console.error('Ошибка регистрации:', error)
+
+      if (error.response?.status === 409) {
+        formik.setErrors({
+          general: 'signUp.user_already_exists',
+        })
+      }
+    }
+    finally {
+      setSubmitting(false)
+    }
+  }
+
   useEffect(() => {
     inputRef.current?.focus()
   }, [])
@@ -46,36 +77,7 @@ const RegistrationForm = () => {
     },
     validationSchema: registrationSchema,
     validateOnBlur: true,
-    onSubmit: async (values, { setSubmitting, resetForm }) => {
-      try {
-        const userData = {
-          username: values.username,
-          password: values.password,
-        }
-
-        const response = await axios.post('/api/v1/signup', userData)
-        console.log('Успешная регистрация:', response.data)
-
-        resetForm()
-
-        const { token, username } = response.data
-
-        dispatch(logIn({ token, username }))
-        navigate(routes.mainPage())
-      }
-      catch (error) {
-        console.error('Ошибка регистрации:', error)
-
-        if (error.response?.status === 409) {
-          formik.setErrors({
-            general: 'signUp.user_already_exists',
-          })
-        }
-      }
-      finally {
-        setSubmitting(false)
-      }
-    },
+    onSubmit: handleSubmit,
   })
 
   return (
