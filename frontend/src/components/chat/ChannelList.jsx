@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import ChannelItem from './Channel'
 import AddChannelModal from '../modal/addChannelModal'
 import { deleteChannelWithServer } from '../../slices/channelsSlice'
-import RenameChannelModal from '../modal/renameChannelModal'
+import RenameChannelModal from '../modal/RenameChannelModal'
 import PlusIcon from '../../images/icons/Plus'
 
 const ChannelList = ({
