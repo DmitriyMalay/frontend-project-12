@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import ChannelItem from './Channel'
-import AddChannelModal from '../../modal/addChannelModal'
+import AddChannelModal from '../modal/addChannelModal'
 import { deleteChannelWithServer } from '../../slices/channelsSlice'
-import RenameChannelModal from '../../modal/RenameChannelModal'
+import RenameChannelModal from '../modal/renameChannelModal'
 import PlusIcon from '../../images/icons/Plus'
 
 const ChannelList = ({
